@@ -2,7 +2,17 @@ def changeN(data,fromN,toN):
     return
 
 def fromTen(data,toN):
-    return
+    data = int(data)
+    result = []
+    temp = data
+    while True:
+        div = temp//toN
+        mod = temp%toN
+        result.append(mod)
+        temp = div
+        if temp==0:
+            break
+    return "".join()
 
 def toTen(data,fromN):
     dataList = [int(x) for x in list(data)]
@@ -14,4 +24,4 @@ def toTen(data,fromN):
         result += dataList[index] * fromN ** i
     return result
 
-print(toTen("1010",2))
+print(fromTen("123",8))
