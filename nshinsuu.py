@@ -25,3 +25,4 @@ def toTen(data,fromN):
     return result
 
 print(fromTen("123",8))
+print()
