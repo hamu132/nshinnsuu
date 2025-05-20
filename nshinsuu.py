@@ -17,12 +17,10 @@ def fromTen(data,toN):
 def toTen(data,fromN):
     dataList = [int(x) for x in list(data)]
     if max(dataList)>=fromN:
-        return ValueError
+        return 0
     result = 0
     for i in range(len(dataList)):
         index = len(dataList)-i-1
         result += dataList[index] * fromN ** i
     return result
 
-print(fromTen("123",8))
-print()
