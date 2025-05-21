@@ -1,6 +1,7 @@
 import os
 import fileIO
 import decode
+import nshinsuu
 def makeList(content,bit):
     bitList = []
     count = 0
@@ -13,37 +14,44 @@ def makeList(content,bit):
         count+=1
     return bitList
 
+def start():
+    while True:
+        path = "data.dat"
+        n = "10"
+        #path = input("暗号ファイルを入力してください（パス）")
+        if os.path.isfile(path):
+            break
+        else:
+            print("パスが不正です。")
+    contents = fileIO.openFile(path)
+    print(contents,len(contents))
+    #とりあえずデータは2進数にする
+    content = ""
+    for c in contents:
+        content+=nshinsuu.changeN(c,n,2)
+    print(content,len(content))
+    
 
-while True:
-    path = "data.dat"
-    #path = input("暗号ファイルを入力してください（パス）")
-    if os.path.isfile(path):
-        break
-    else:
-        print("パスが不正です。")
-content = fileIO.openFile(path)
 
-print(content)
+    di = {
+        "1":decode.decode,
+        "2":decode.decode,
+        "10":decode.decode
+    }
 
 
-di = {
-    "1":decode.decode,
-    "2":decode.decode
-}
+    print(f"入力データは{n}進数です。")
+    while True:
+        #q = input(">> ")
+        if n in di:
+            for i in range(2,5):
+                bit = 2**i
+                #一定ごとに区切る
+                contentList = makeList(content,bit)
+                print(contentList)
+                decode.decode(contentList,2)
+            break
+        else:
+            print("無効な選択です。")
 
-
-print("データの形式を選んでください。")
-print("2~16: 2~16進数")
-while True:
-    #q = input(">> ")
-    q = "2"
-    if q in di:
-        for i in range(2,4):
-            bit = 2**i
-            contentList = makeList(content,bit)
-            print(contentList)
-            decode.decode(contentList,q)
-        break
-    else:
-        print("無効な選択です。")
-
+start()
