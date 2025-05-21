@@ -25,7 +25,7 @@ def start():
             print("パスが不正です。")
     contents = fileIO.openFile(path)
     print(contents,len(contents))
-    #とりあえずデータは2進数にするa
+    #とりあえずデータは2進数にするaa
     content = ""
     for c in contents:
         content+=nshinsuu.changeN(c,n,2)
