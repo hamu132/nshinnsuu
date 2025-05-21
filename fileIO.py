@@ -5,6 +5,6 @@ import re
 def openFile(path):
     with open(Path(path),"r",encoding="utf-8") as file:
         content = file.read()
-        contents = list(filter(None,re.split(r"[,\s]+",content)))
-        return contents
+        returnContent = list(filter(None,re.split(r"[,\s]+",content)))
+        return "".join(returnContent)
 
