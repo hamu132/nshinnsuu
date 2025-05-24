@@ -3,8 +3,8 @@ import nshinsuu
 def decode(contents,codeType):
     print("反転ナシ")
     decode2(contents,codeType,inverse=False)
-    print("反転アリ")
-    decode2(contents,codeType,inverse=True)
+    # print("反転アリ")
+    # decode2(contents,codeType,inverse=True)
 
 def decode2(contents,codeType,inverse):
     byteList = []
@@ -46,6 +46,18 @@ def utf8Decode(byte):
         print(f"SHIFT-JIS -> {byte.decode('shift-jis')} :end")
     except UnicodeDecodeError:
         print("SHIFT-JIS -> 復号できません")
+    try:
+        print(f"UTF-16(le) -> {byte.decode('utf-16-le')} :end")
+    except UnicodeDecodeError:
+        print("UTF-16(le) -> 復号できません")
+    try:
+        print(f"UTF-16(be) -> {byte.decode('utf-16-be')} :end")
+    except UnicodeDecodeError:
+        print("UTF-16(be) -> 復号できません")
+    try:
+        print(f"UTF-32 -> {byte.decode('utf-32')} :end")
+    except UnicodeDecodeError:
+        print("UTF-32 -> 復号できません")
     except Exception:
         print("復号できません")
 
