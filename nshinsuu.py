@@ -1,12 +1,4 @@
-def changeN(data,fromN,toN,inverse):
-    if inverse:
-        inverseData = ""
-        for d in list(data):
-            if d == "1":
-                inverseData+="0"
-            else:
-                inverseData+="1"
-        data = inverseData
+def changeN(data,fromN,toN):
     temp = toTen(data,fromN)
     result = fromTen(temp,toN)
     return result
@@ -48,5 +40,16 @@ def toTen(data,fromN):
         result += dataList[index] * int(fromN) ** i
     return result
 
+def inverse(data,inverse):
+    if inverse:
+        data2 = ""
+        for d in list(data):
+            if d == "1":
+                data2 += "0"
+            else:
+                data2 += "1"
+        return data2
+    else:
+        return data
 
 #print(changeN("10",10,2))

@@ -8,15 +8,18 @@ def decode(contents,codeType):
 
 def decode2(contents,codeType,inverse):
     byteList = []
+    contents2 = []
     for c in contents:
-        ten = nshinsuu.changeN(c,int(codeType),10,inverse)
+        contents2.append(nshinsuu.inverse(c,inverse))
+    for c in contents2:
+        ten = nshinsuu.changeN(c,int(codeType),10)
         byteList.append(int(ten))
     try:
         byte = bytes(byteList)
-        print(f"{contents} -> {byteList} -> {byte}")
+        print(f"{contents2} -> {byteList} -> {byte}")
         utf8Decode(byte)
     except ValueError:
-        print(f"{contents} -> {byteList} -> 変換不可(bit列が不適切です)")
+        print(f"{contents2} -> {byteList} -> 変換不可(bit列が不適切です)")
 
         
     print()

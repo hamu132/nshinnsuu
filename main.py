@@ -27,10 +27,10 @@ def start():
     #とりあえずデータは2進数にするaasssssaa
     content = ""
     for c in contents:
-        content+=nshinsuu.changeN(c,n,2,inverse=False)
+        content+=nshinsuu.changeN(c,n,2)
     
     print(f"入力データは{n}進数です。")
-    print(f"元データ：{contents}、二進数：{content}、ビット長さ：{len(content)}")
+    print(f"元データ：{contents}\n二進数：{content}\nビット長さ：{len(content)}")
     print()
     
 
