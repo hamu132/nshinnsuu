@@ -4,13 +4,17 @@ def changeN(data,fromN,toN):
     return result
 
 def fromTen(data,toN):
+    numDict = {
+        0:"0",1:"1",2:"2",3:"3",4:"4",5:"5",6:"6",7:"7",8:"8",9:"9",
+        10:"A",11:"B",12:"C",13:"D",14:"E",15:"F"
+    }
     data = int(data)
     result = []
     temp = data
     while True:
         div = temp//toN
         mod = temp%toN
-        result = [str(mod)] + result
+        result = [numDict[mod]] + result
         temp = div
         if temp==0:
             break

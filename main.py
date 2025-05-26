@@ -17,7 +17,7 @@ def makeList(content,bit):
 def start():
     while True:
         path = "data.dat"
-        n = "10"
+        n = "16"
         #path = input("暗号ファイルを入力してください（パス）")
         if os.path.isfile(path):
             break
@@ -25,12 +25,16 @@ def start():
             print("パスが不正です。")
     contents = fileIO.openFile(path)
     #とりあえずデータは2進数にする
-    content = ""
+    content10 = []
+    content2 = []
+    content16 = []
     for c in contents:
-        content+=nshinsuu.changeN(c,n,2)
+        content10.append(nshinsuu.changeN(c,n,10))
+        content2.append(nshinsuu.changeN(c,n,2))
+        content16.append(nshinsuu.changeN(c,n,16))
     
     print(f"入力データは{n}進数です。")
-    print(f"元データ：{contents}\n二進数：{content}\nビット長さ：{len(content)}")
+    print(f"元データ：{contents}\n二進数：{content2}\n十進数：{content10}\n十六進数：{content16}\nビット長さ：{len("".join(content2))}")
     print()
     
 
@@ -49,7 +53,7 @@ def start():
             for i in range(3,5):
                 bit = 2**i
                 #一定ごとに区切る
-                contentList = makeList(content,bit)
+                contentList = makeList("".join(content2),bit)
                 decode.decode(contentList,2)
             break
         else:
