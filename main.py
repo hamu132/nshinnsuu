@@ -17,8 +17,7 @@ def makeList(content,bit):
 def start():
     while True:
         path = "data.dat"
-        n = "16"
-        #path = input("暗号ファイルを入力してください（パス）")
+        n = "10"
         if os.path.isfile(path):
             break
         else:
@@ -39,24 +38,13 @@ def start():
     
 
 
-    di = {
-        "1":decode.decode,
-        "2":decode.decode,
-        "10":decode.decode,
-        "16":decode.decode
-    }
+
+    for i in range(3,5):
+        bit = 2**i
+        #一定ごとに区切る
+        contentList = makeList("".join(content2),bit)
+        decode.decode(contentList,2)
 
 
-    while True:
-        #q = input(">> ")
-        if n in di:
-            for i in range(3,5):
-                bit = 2**i
-                #一定ごとに区切る
-                contentList = makeList("".join(content2),bit)
-                decode.decode(contentList,2)
-            break
-        else:
-            print("無効な選択です。")
 
 start()
