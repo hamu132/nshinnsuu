@@ -1,65 +1,47 @@
 import nshinsuu
 
-def decode(contents,codeType):
-    print("反転ナシ")
-    decode2(contents,codeType,inverse=False)
-    # print("反転アリ")
-    # decode2(contents,codeType,inverse=True)
+def decode(contents,codeType,inverse):
+    #contentsはビット区切りの二進数配列
+    byte = decode2(contents,codeType,inverse)
+
+
+    #バイト列
+    return byte
 
 def decode2(contents,codeType,inverse):
     byteList = []
     contents2 = []
+    #contentsをコピー、または反転してコピー
     for c in contents:
         contents2.append(nshinsuu.inverse(c,inverse))
+    #10進数にしてbyteListに入れる
     for c in contents2:
         ten = nshinsuu.changeN(c,int(codeType),10)
         byteList.append(int(ten))
     try:
         byte = bytes(byteList)
-        print(f"{contents2} -> {byteList} -> {byte}")
-        utf8Decode(byte)
+        #print(f"{contents2} -> {byteList} -> {byte}")
+        return byte
+        #utf8Decode(byte)
     except ValueError:
-        print(f"{contents2} -> {byteList} -> 変換不可(bit列が不適切です)")
+        #print(f"{contents2} -> {byteList} -> 変換不可(bit列が不適切です)")
+        return 0
 
-        
-    print()
 
-    unicodeResult = ""
-    for b in byteList:
-        unicodeResult += uniCodeDecode(b)
+def utf8Decode(n,bit,byte,method,inverse):
     try:
-        print(f"UniCode -> {unicodeResult}")
-    except:
-        print("Unicodeは復号できません。")
-    print()
-
-def utf8Decode(byte):
-    try:
-        print(f"UTF-8 -> {byte.decode('utf-8')} :end")
+        #print(f"{method} -> {byte.decode(method)} :end")
+        if inverse == 1:
+            inv = "inv"
+        else:
+            inv = "NOinv"
+        return {f"{n}-{bit}-{method}-{inv}" : byte.decode(method)}
     except UnicodeDecodeError:
-        print("UTF-8 -> 復号できません。")
-    try:
-        print(f"EUC-JP -> {byte.decode('euc_jp')} :end")
-    except UnicodeDecodeError:
-        print("EUC-JP -> 復号できません")
-    try:
-        print(f"SHIFT-JIS -> {byte.decode('shift-jis')} :end")
-    except UnicodeDecodeError:
-        print("SHIFT-JIS -> 復号できません")
-    try:
-        print(f"UTF-16(le) -> {byte.decode('utf-16-le')} :end")
-    except UnicodeDecodeError:
-        print("UTF-16(le) -> 復号できません")
-    try:
-        print(f"UTF-16(be) -> {byte.decode('utf-16-be')} :end")
-    except UnicodeDecodeError:
-        print("UTF-16(be) -> 復号できません")
-    try:
-        print(f"UTF-32 -> {byte.decode('utf-32')} :end")
-    except UnicodeDecodeError:
-        print("UTF-32 -> 復号できません")
+        #print(f"{method} -> 復号できません。")
+        return {}
     except Exception:
         print("復号できません")
+        return {}
 
 
 def uniCodeDecode(byte):
