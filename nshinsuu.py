@@ -1,7 +1,11 @@
+#進数変換(fromとtoはstrでもintでも対応可)返り値はstr
+#ビット数をそろえてくれる
 def changeN(data,fromN,toN):
-    temp = toTen(data,fromN)
-    result = fromTen(temp,toN)
-    return result
+    if str(fromN).isnumeric() and str(toN).isnumeric():
+        temp = toTen(data,int(fromN))
+        result = fromTen(temp,int(toN))
+        return result
+    return ""
 
 def fromTen(data,toN):
     data = int(data)
@@ -31,13 +35,13 @@ def toTen(data,fromN):
         "a":10,"b":11,"c":12,"d":13,"e":14,"f":15
     }
     dataList = [numDict[x] for x in list(data)]
-    if max(dataList)>=int(fromN):
-        print(f"{max(dataList)},{fromN},エラー")
+    if max(dataList)>=fromN:
+        print(f"{max(dataList)},{fromN},変換エラー")
         return 0
     result = 0
     for i in range(len(dataList)):
         index = len(dataList)-i-1
-        result += dataList[index] * int(fromN) ** i
+        result += dataList[index] * fromN ** i
     return result
 
 def inverse(data,inverse):

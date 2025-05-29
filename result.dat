@@ -1,10 +1,6 @@
-16-8-utf-8-NOinv / 熟
-16-8-utf-8-inv / B0
-16-8-euc-jp-inv / B0
-16-8-shift-jis-inv / 餐
-16-8-euc-jp-NOinv / 熟
-16-8-shift-jis-NOinv / 殯
-16-8-utf-16-le-NOinv / 齱
-16-8-utf-16-be-NOinv / 熟
-16-8-utf-16-le-inv / 悎
-16-8-utf-16-be-inv / 蹠
+16-8-(utf-8->utf-8)-NOinv / 花英芿苡腛
+16-8-(utf-16-le->utf-16-le)-NOinv / 花英芿苡腛
+16-8-(utf-16-le->utf-16-be)-NOinv / 놂뾂宁
+16-8-(utf-16-be->shift-jis)-NOinv / こんちゃー
+16-8-(utf-16-be->utf-16-le)-NOinv / 놂뾂宁
+16-8-(utf-16-be->utf-16-be)-NOinv / 花英芿苡腛

@@ -62,23 +62,27 @@ def start():
     #少なくとも何進数の可能性があるか
     min_n = checkInput(contents)
     resultsDict = {}
+
+    #進数入力ではなかった場合(まずエンコード→デコード)
     if min_n == -1 or min_n>16:
         method = ["utf-8","euc-jp","shift-jis","utf-16-le","utf-16-be"]
+        #method = ["utf-8"]
         for m in method:
             try:
                 cont = mojicode_encode(contents,m)
-                di = nshinsu_decode(16,cont,texts)
+                di = nshinsu_decode(16,cont,m)
                 resultsDict.update(di)
             except:
                 continue
     else:
-        di = nshinsu_decode(min_n,contents,texts)
+        di = nshinsu_decode(min_n,contents,"no")
         resultsDict = di
     
 
     fileIO.writeFile("result.dat",resultsDict)
     checkResult(texts,set(resultsDict.values()))
 
+#エンコードして配列で返す
 def mojicode_encode(contents,method):
     cont = []
     for c in contents:
@@ -86,16 +90,18 @@ def mojicode_encode(contents,method):
     return cont
 
 
-def nshinsu_decode(min_n,contents,texts):
+def nshinsu_decode(min_n,contents,encode_method):
+    print(f"{contents} ({encode_method})")
     resultsDict = {}
     #反転か反転しないか
-    for inverse in range(2):
+    for inverse in range(0,1):
         #16からmin_n進数まで
         for n in range(16,min_n-1,-1):
             #とりあえずデータは2進数にして全部つなげる
             content = ""
             for c in contents:
                 content+=nshinsuu.changeN(c,n,2)
+            print(f"    -> {content} (2進数を繋げる)({n})")
             
             # print(f"入力データは{n}進数です。")
             # print(f"元データ：{contents}\n二進数：{content}\nビット長さ：{len(content)}")
@@ -106,11 +112,16 @@ def nshinsu_decode(min_n,contents,texts):
                 #一定ごとに区切る
                 contentList = makeList(content,bit)
                 method = ["utf-8","euc-jp","shift-jis","utf-16-le","utf-16-be"]
+                #method = ["utf-8"]
                 byte = decode.decode(contentList,2,inverse)
+                print(f"        -> {contentList}")
+                print(f"            -> {byte}({inverse})")
                 if byte != 0:
                     for m in method:
                         #元進数、区切りビット、手法と結果
-                        resultsDict.update(decode.utf8Decode(n,bit,byte,m,inverse))
+                        resultsDict.update(decode.utf8Decode(n,bit,byte,m,inverse,encode_method))
+                        print(f"                -> {decode.utf8Decode(n,bit,byte,m,inverse,encode_method).values()}")
+                
         #print()
     
     return resultsDict
