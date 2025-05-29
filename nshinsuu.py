@@ -32,7 +32,7 @@ def toTen(data,fromN):
     }
     dataList = [numDict[x] for x in list(data)]
     if max(dataList)>=int(fromN):
-        print("エラー")
+        print(f"{max(dataList)},{fromN},エラー")
         return 0
     result = 0
     for i in range(len(dataList)):

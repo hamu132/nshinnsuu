@@ -2,6 +2,8 @@ import os
 import fileIO
 import decode
 import nshinsuu
+
+#ビット区切りの配列にする
 def makeList(content,bit):
     bitList = []
     count = 0
@@ -14,7 +16,7 @@ def makeList(content,bit):
         count+=1
     return bitList
 
-
+#結果が良い感じか確認
 def checkResult(texts,results):
     for r in results:
         count = 0
@@ -31,11 +33,7 @@ def checkResult(texts,results):
         if rate>0.7:
             print(r)
 
-
-#0~255
-#913~1023
-#12288~13311
-#-1:そもそも数値にならない
+#入力がn進数で表せる場合の最小nを返す（もしくは-1）
 def checkInput(contents):
     numDict = {
         "0":0,"1":1,"2":2,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9,
@@ -49,11 +47,11 @@ def checkInput(contents):
                 return -1
             if min_n<numDict[c2]:
                 min_n = numDict[c2]
-    return min_n
+    return min_n+1
 
 
 def start():
-    resultsDict = {}
+    #常用文字
     texts = []
     texts+=(fileIO.openFile("jyouyou.dat"))
     texts+=(fileIO.openFile("words.dat"))
@@ -63,14 +61,37 @@ def start():
 
     #少なくとも何進数の可能性があるか
     min_n = checkInput(contents)
-    if min_n == -1 or min_n>=16:
-        print("入力が不適切です。")
-        return
+    resultsDict = {}
+    if min_n == -1 or min_n>16:
+        method = ["utf-8","euc-jp","shift-jis","utf-16-le","utf-16-be"]
+        for m in method:
+            try:
+                cont = mojicode_encode(contents,m)
+                di = nshinsu_decode(16,cont,texts)
+                resultsDict.update(di)
+            except:
+                continue
+    else:
+        di = nshinsu_decode(min_n,contents,texts)
+        resultsDict = di
     
+
+    fileIO.writeFile("result.dat",resultsDict)
+    checkResult(texts,set(resultsDict.values()))
+
+def mojicode_encode(contents,method):
+    cont = []
+    for c in contents:
+        cont+=([hex(x)[2:] for x in c.encode(method)])
+    return cont
+
+
+def nshinsu_decode(min_n,contents,texts):
+    resultsDict = {}
     #反転か反転しないか
     for inverse in range(2):
         #16からmin_n進数まで
-        for n in range(16,min_n,-1):
+        for n in range(16,min_n-1,-1):
             #とりあえずデータは2進数にして全部つなげる
             content = ""
             for c in contents:
@@ -90,10 +111,11 @@ def start():
                     for m in method:
                         #元進数、区切りビット、手法と結果
                         resultsDict.update(decode.utf8Decode(n,bit,byte,m,inverse))
-        print()
+        #print()
+    
+    return resultsDict
 
-    fileIO.writeFile("result.dat",resultsDict)
-    checkResult(texts,set(resultsDict.values()))
+
 
 
 
